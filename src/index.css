@@ -3,6 +3,7 @@ body {
     height: 100%;
     color: #333;
     background: #fff;
+    user-select: none;
 }
 
 h1,

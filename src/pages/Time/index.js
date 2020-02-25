@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Flex, WingBlank, DatePicker, Result, Button, Toast } from 'antd-mobile';
 import go from '../../assets/go.wav'
+import MyImg from '../../components/Img';
+
 import './index.css'
-const myImg = src => <img src={src} className="spe am-icon am-icon-md" alt="" />;
 class Time extends Component {
 
   state = {
@@ -35,6 +36,16 @@ class Time extends Component {
       let startTime = +new Date();
       // 剩余时间毫秒数
       let flong = flag - startTime;
+
+      // 结束
+      if (flong < 1000) {
+        this.setState({
+          showTime: ''
+        })
+        this.tips()
+        return this.clTime()
+      }
+
       // 时间单位（毫秒）
       let dayTime = 24 * 60 * 60 * 1000, hourTime = 60 * 60 * 1000, miniteTime = 60 * 1000, second = 1000;
       lday = Math.floor(flong / dayTime);
@@ -47,16 +58,6 @@ class Time extends Component {
       // 不够一分钟
       let _minite = Math.floor(_hour % miniteTime);
       lsecond = Math.round(_minite / second);
-
-      // 结束
-      if (lhour === 0 && lminute === 0 && lsecond === 0 || (lhour < 0 || lminute < 0 || lsecond < 0)) {
-        console.log('over:', lhour, lminute, lsecond)
-        this.setState({
-          showTime: ''
-        })
-        this.tips()
-        return clearInterval(this.clt)
-      }
       this.setState({
         showTime: '上课时间：' + lhour + '小时' + lminute + '分' + lsecond + '秒'
       })
@@ -69,10 +70,15 @@ class Time extends Component {
 
   // 设置上课时间
   choosetime = () => {
+    this.clTime()
     const { visible } = this.state;
     this.setState({
       visible: !visible
     })
+  }
+
+  clTime = () => {
+    if (this.clt) clearInterval(this.clt);
   }
 
   // 处理倒计时
@@ -89,12 +95,16 @@ class Time extends Component {
       this.setState({ loop: false })
     }, 60 * 1000)
   }
+
+  componentWillUnmount() {
+    this.clTime()
+  }
   render() {
     return (
       <Flex className="time">
         <WingBlank>
           <Result
-            img={myImg('https://gw.alipayobjects.com/zos/rmsportal/HWuSTipkjJRfTWekgTUG.svg')}
+            img={MyImg('https://gw.alipayobjects.com/zos/rmsportal/HWuSTipkjJRfTWekgTUG.svg')}
             title="课间休息"
             message="劳逸结合，马上回来！"
             buttonText={this.state.showTime ? this.state.showTime : '上课时间'}
