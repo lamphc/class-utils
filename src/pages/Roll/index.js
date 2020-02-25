@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Flex, WingBlank, Result, Icon } from 'antd-mobile';
+import { WingBlank, Result, Icon } from 'antd-mobile';
 
 const students = Array.from(new Array(100)).map((item, index) => '王' + index)
 
@@ -46,7 +46,7 @@ class Roll extends Component {
   render() {
     const { luck, isRoll } = this.state;
     return (
-      <Flex className="time">
+      <div className="time">
         <WingBlank>
           <Result
             img={<Icon type="check-circle" className="spe" style={{ fill: '#e94f4f' }} />}
@@ -57,7 +57,7 @@ class Roll extends Component {
             onButtonClick={this.rollLuck}
           />
         </WingBlank>
-      </Flex>
+      </div>
     );
   }
 }

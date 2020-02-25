@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { Flex, WingBlank, DatePicker, Result, Button, Toast } from 'antd-mobile';
+import { WingBlank, DatePicker, Result, NoticeBar, Toast } from 'antd-mobile';
 import go from '../../assets/go.wav'
 import MyImg from '../../components/Img';
 
 import './index.css'
+
+
 class Time extends Component {
 
   state = {
     endTime: null,
     showTime: '',
-    wall: '',
+    showNotice: false,
     loop: true,
     visible: false
   }
@@ -65,7 +67,7 @@ class Time extends Component {
     let _minite = Math.floor(_hour % miniteTime);
     lsecond = Math.round(_minite / second);
     this.setState({
-      showTime: '上课时间：' + lhour + '小时' + lminute + '分' + lsecond + '秒'
+      showTime: '距离上课剩余：' + lhour + '小时' + lminute + '分' + lsecond + '秒'
     })
   }
 
@@ -91,18 +93,31 @@ class Time extends Component {
 
   tips = () => {
     this.audio.play();
+    this.setState({
+      showNotice: true
+    })
     this.cls = setTimeout(() => {
       clearTimeout(this.cls)
-      this.setState({ loop: false })
-    }, 60 * 1000)
+      this.setState({ loop: false, showNotice: false })
+    }, 30 * 1000)
+  }
+
+  renderNotice = () => {
+    return this.state.showNotice ? <NoticeBar marqueeProps={{ loop: true, style: { padding: '0 7.5px' } }}>
+      通知：上课了，同学们！老班喊你回来上课了！上课了，同学们！
+</NoticeBar> : null
   }
 
   componentWillUnmount() {
     this.clTime()
   }
+
+
   render() {
     return (
-      <Flex className="time">
+      <div className="time">
+        {this.renderNotice()}
+
         <WingBlank>
           <Result
             img={MyImg('https://gw.alipayobjects.com/zos/rmsportal/HWuSTipkjJRfTWekgTUG.svg')}
@@ -117,17 +132,17 @@ class Time extends Component {
             visible={this.state.visible}
             mode="time"
             format="HH:mm"
-            title="下课"
+            title="选择休息时间"
             minDate={new Date}
             maxDate={new Date((+new Date) + 60 * 60 * 1000)}
             value={this.state.endTime}
             onDismiss={() => this.setState({ visible: false })}
             onChange={this.setTime}
-            extra="选择休息时间"
+            extra="下课"
           />
           <audio src={go} loop={this.state.loop} id="audio" hidden controls />
         </WingBlank>
-      </Flex>
+      </div>
     );
   }
 }
