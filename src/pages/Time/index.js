@@ -25,47 +25,48 @@ class Time extends Component {
   over = () => {
     const { endTime } = this.state;
     if (!endTime) return;
-    let lday, lhour, lminute, lsecond;
 
     let flag = endTime.getTime();
     if (flag < +new Date) {
       return Toast.fail('休息时间太少了！', 2)
     }
 
-    let timeRange = () => {
-      let startTime = +new Date();
-      // 剩余时间毫秒数
-      let flong = flag - startTime;
-
-      // 结束
-      if (flong < 1000) {
-        this.setState({
-          showTime: ''
-        })
-        this.tips()
-        return this.clTime()
-      }
-
-      // 时间单位（毫秒）
-      let dayTime = 24 * 60 * 60 * 1000, hourTime = 60 * 60 * 1000, miniteTime = 60 * 1000, second = 1000;
-      lday = Math.floor(flong / dayTime);
-      // 不够一天
-      let _day = flong % dayTime;
-      lhour = Math.floor(_day / hourTime);
-      // 不够一小时
-      let _hour = Math.floor(_day) % hourTime;
-      lminute = Math.floor(_hour / miniteTime);
-      // 不够一分钟
-      let _minite = Math.floor(_hour % miniteTime);
-      lsecond = Math.round(_minite / second);
-      this.setState({
-        showTime: '上课时间：' + lhour + '小时' + lminute + '分' + lsecond + '秒'
-      })
-    };
+    this.timeRange(flag);
 
     this.clt = setInterval(() => {
-      timeRange()
+      this.timeRange(flag)
     }, 1000)
+  }
+
+  timeRange = (flag) => {
+    let startTime = +new Date();
+    // 剩余时间毫秒数
+    let flong = flag - startTime;
+
+    // 结束
+    if (flong < 1000) {
+      this.setState({
+        showTime: ''
+      })
+      this.tips()
+      return this.clTime()
+    }
+    let lday, lhour, lminute, lsecond;
+    // 时间单位（毫秒）
+    let dayTime = 24 * 60 * 60 * 1000, hourTime = 60 * 60 * 1000, miniteTime = 60 * 1000, second = 1000;
+    lday = Math.floor(flong / dayTime);
+    // 不够一天
+    let _day = flong % dayTime;
+    lhour = Math.floor(_day / hourTime);
+    // 不够一小时
+    let _hour = Math.floor(_day) % hourTime;
+    lminute = Math.floor(_hour / miniteTime);
+    // 不够一分钟
+    let _minite = Math.floor(_hour % miniteTime);
+    lsecond = Math.round(_minite / second);
+    this.setState({
+      showTime: '上课时间：' + lhour + '小时' + lminute + '分' + lsecond + '秒'
+    })
   }
 
   // 设置上课时间
