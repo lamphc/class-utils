@@ -1,8 +1,17 @@
 # [课程工具](https://lamphc.github.io/class-utils)
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+> ## 使用说明
 
+1. 上课：
+* 支持设置当前时间往后一小时以内休息时间
+* 倒计时结束，播放提示上课音效和通知（30s）
+
+2. 点名
+* 可预置数据到本地
+* 数组随机点名
+
+### scripts
 In the project directory, you can run:
 
 ### `npm start`
