@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import { WingBlank, Result, Icon } from 'antd-mobile';
+// import axios from '../../utils/axios';
 
-const students = Array.from(new Array(100)).map((item, index) => '王' + index)
+
+
+const students = Array.from(new Array(100)).map((item, index) => { return { student_name: '王' + index } })
 
 const DEF = 'luck-man';
 
 class Roll extends Component {
   state = {
     luck: DEF,
-    students: JSON.parse(localStorage.getItem('students')) || students,
     isRoll: false
   }
+
+  componentDidMount() {
+    this.students = JSON.parse(localStorage.getItem('students')) || students;
+
+  }
+
 
   rollLuck = () => {
     this.setState({
@@ -34,10 +42,9 @@ class Roll extends Component {
   }
 
   selOne = () => {
-    const { students } = this.state;
-    let len = students.length;
+    let len = this.students.length;
     let one = Math.floor(Math.random() * len + 1) - 1;
-    return students[one]
+    return this.students[one].student_name
   }
 
   componentWillUnmount() {
