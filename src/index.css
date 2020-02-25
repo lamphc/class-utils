@@ -2,7 +2,7 @@ html,
 body {
     height: 100%;
     color: #333;
-    background: #fff;
+    /* background: #fff; */
     user-select: none;
 }
 
