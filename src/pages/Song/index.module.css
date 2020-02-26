@@ -1,0 +1,23 @@
+.song {
+  height: 100%;
+}
+
+#sync {
+  margin-top:-20px;
+  width:100%;
+  height: calc(100% - 20px);
+}
+
+.gh {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  color: #fff;
+}
+
+.fixed {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%
+}

@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { NavBar } from 'antd-mobile';
+import { NavBar, Icon } from 'antd-mobile';
 
 class Header extends Component {
+
   render() {
+    const { title, onLeftClick, pos } = this.props;
     return (
-      <div>
+      <div className={pos}>
         <NavBar
           mode="dark"
-          leftContent="Back"
-          rightContent={[
-            <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
-            <Icon key="1" type="ellipsis" />,
+          onLeftClick={onLeftClick}
+          rightContent={[,
+            <Icon key="1" type="ellipsis" />
           ]}
-        >NavBar</NavBar>
+        >{title || '导航'}</NavBar>
       </div>
     );
   }

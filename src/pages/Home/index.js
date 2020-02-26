@@ -9,7 +9,7 @@ import './index.scss'
 
 import Time from '../Time';
 const Roll = lazy(() => import('../Roll'));
-
+const Song = lazy(() => import('../Song'));
 class Home extends Component {
 
   state = {
@@ -47,6 +47,7 @@ class Home extends Component {
       <div className="home">
         <Route exact path="/home" component={Time} />
         <Route path="/home/roll" component={Roll} />
+        <Route path="/home/song" component={Song} />
         <div className="barBox">
           <TabBar
             unselectedTintColor="#949494"
