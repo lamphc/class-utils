@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
-import { WingBlank, Result, Icon } from 'antd-mobile';
+import { WingBlank, Result, Icon, Button, WhiteSpace, Toast } from 'antd-mobile';
+// 洗牌算法
+import { shuffle } from 'lodash'
 // import axios from '../../utils/axios';
-
-
+// import { bounce } from 'react-animations';
+// import Radium, { StyleRoot } from 'radium';
 
 const students = Array.from(new Array(100)).map((item, index) => { return { student_name: '王' + index } })
 
-const DEF = 'luck-man';
+const DEF = 'luck man';
 
+const ClassMap = [{ id: 5779, label: '89期' }, { id: 5780, label: '90期' }]
+// const styles = {
+//   bounce: {
+//     animation: 'x 1s',
+//     animationName: Radium.keyframes(bounce, 'bounce')
+//   }
+// }
+window.shuffle = shuffle;
+const reg = /(?<=.)./g;
 class Roll extends Component {
   state = {
     luck: DEF,
@@ -29,7 +40,7 @@ class Roll extends Component {
           this.setState({
             luck: this.selOne()
           })
-        }, 0);
+        }, 60);
       } else {
         this.stopRoll()
       }
@@ -41,10 +52,26 @@ class Roll extends Component {
     this.cln && clearInterval(this.cln)
   }
 
+  // 洗牌算法
+  shuffleClass = () => {
+    this.students = shuffle(this.students);
+    Toast.success(`成功洗牌${this.students.length}条数据，顺序已重新打乱！
+    \r 结果：${
+      this.students.map((item) => item.student_name.replace(reg, '*')).join(',')
+      }`, 6)
+    // console.log('清洗结果：', this.students)
+  }
+
   selOne = () => {
     let len = this.students.length;
     let one = Math.floor(Math.random() * len + 1) - 1;
-    return this.students[one].student_name
+    // 处理班级
+    let cur = this.students[one], name = cur.student_name;
+    if (cur.class_id) {
+      const cas = ClassMap.filter((item) => item.id === cur.class_id);
+      cas.length && (name += `（${cas[0].label}）`)
+    }
+    return name
   }
 
   componentWillUnmount() {
@@ -63,6 +90,8 @@ class Roll extends Component {
             buttonType="primary"
             onButtonClick={this.rollLuck}
           />
+          <WhiteSpace />
+          <Button type="warning" onClick={this.shuffleClass} >洗牌</Button>
         </WingBlank>
       </div>
     );
