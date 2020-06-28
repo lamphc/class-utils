@@ -1,15 +1,15 @@
-import React, { Component, lazy } from 'react';
+import React, { Component, lazy } from 'react'
 
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router-dom'
 
-import { TabBar, Icon } from 'antd-mobile';
-import tabBars from '../../utils/tabbar_config';
+import { TabBar, Icon } from 'antd-mobile'
+import tabBars from '../../utils/tabbar_config'
 
 import './index.scss'
 
-import Time from '../Time';
-const Roll = lazy(() => import('../Roll'));
-const Song = lazy(() => import('../Song'));
+import Time from '../Time'
+const Roll = lazy(() => import('../Roll'))
+const Song = lazy(() => import('../Song/index'))
 class Home extends Component {
 
   state = {
@@ -33,7 +33,7 @@ class Home extends Component {
           selectedTab: item.path,
         }, () => {
           this.props.history.push(item.path)
-        });
+        })
       }}
 
     />)
@@ -41,7 +41,7 @@ class Home extends Component {
 
 
 
-  render() {
+  render () {
     // console.log(this.props);
     return (
       <div className="home">
@@ -62,8 +62,8 @@ class Home extends Component {
           </TabBar>
         </div >
       </div>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home
