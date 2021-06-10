@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { WingBlank, Result, Icon, Button, WhiteSpace, Toast } from 'antd-mobile';
+import React, { Component } from 'react'
+import { WingBlank, Result, Icon, Button, WhiteSpace, Toast, Slider } from 'antd-mobile'
 // 洗牌算法
 import { shuffle } from 'lodash'
 // import axios from '../../utils/axios';
@@ -8,7 +8,7 @@ import { shuffle } from 'lodash'
 
 const students = Array.from(new Array(100)).map((item, index) => { return { student_name: '王' + index } })
 
-const DEF = 'luck man';
+const DEF = 'luck man'
 
 const ClassMap = [{ id: 5779, label: '89期' }, { id: 5780, label: '90期' }]
 // const styles = {
@@ -17,16 +17,23 @@ const ClassMap = [{ id: 5779, label: '89期' }, { id: 5780, label: '90期' }]
 //     animationName: Radium.keyframes(bounce, 'bounce')
 //   }
 // }
-window.shuffle = shuffle;
-const reg = /(?<=.)./g;
+window.shuffle = shuffle
+const reg = /(?<=.)./g
 class Roll extends Component {
   state = {
     luck: DEF,
     isRoll: false
   }
 
-  componentDidMount() {
-    this.students = JSON.parse(localStorage.getItem('students')) || students;
+  speed = 60
+
+  changeSpeed = (sp) => {
+    // console.log(sp)
+    this.speed = sp
+  }
+
+  componentDidMount () {
+    this.students = JSON.parse(localStorage.getItem('students')) || students
 
   }
 
@@ -40,7 +47,7 @@ class Roll extends Component {
           this.setState({
             luck: this.selOne()
           })
-        }, 60);
+        }, this.speed)
       } else {
         this.stopRoll()
       }
@@ -54,31 +61,30 @@ class Roll extends Component {
 
   // 洗牌算法
   shuffleClass = () => {
-    this.students = shuffle(this.students);
+    this.students = shuffle(this.students)
     Toast.success(`成功洗牌${this.students.length}条数据，顺序已重新打乱！
-    \r 结果：${
-      this.students.map((item) => item.student_name.replace(reg, '*')).join(',')
+    \r 结果：${this.students.map((item) => item.student_name.replace(reg, '*')).join(',')
       }`, 6)
     // console.log('清洗结果：', this.students)
   }
 
   selOne = () => {
-    let len = this.students.length;
-    let one = Math.floor(Math.random() * len + 1) - 1;
+    let len = this.students.length
+    let one = Math.floor(Math.random() * len + 1) - 1
     // 处理班级
-    let cur = this.students[one], name = cur.student_name;
+    let cur = this.students[one], name = cur.student_name
     if (cur.class_id) {
-      const cas = ClassMap.filter((item) => item.id === cur.class_id);
+      const cas = ClassMap.filter((item) => item.id === cur.class_id)
       cas.length && (name += `（${cas[0].label}）`)
     }
     return name
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.stopRoll()
   }
-  render() {
-    const { luck, isRoll } = this.state;
+  render () {
+    const { luck, isRoll } = this.state
     return (
       <div className="time">
         <WingBlank>
@@ -92,10 +98,19 @@ class Roll extends Component {
           />
           <WhiteSpace />
           <Button type="warning" onClick={this.shuffleClass} >洗牌</Button>
+          <Slider
+
+            marks={{ 10: '10迈', 50: '50迈', 90: '90迈' }}
+            defaultValue={60}
+            min={10}
+            max={90}
+            onChange={this.changeSpeed}
+          />
+
         </WingBlank>
       </div>
-    );
+    )
   }
 }
 
-export default Roll;
+export default Roll
