@@ -64,7 +64,7 @@ class Roll extends Component {
     this.students = shuffle(this.students)
     Toast.success(`成功洗牌${this.students.length}条数据，顺序已重新打乱！
     \r 结果：${this.students.map((item) => item.student_name.replace(reg, '*')).join(',')
-      }`, 6)
+      }`, 2)
     // console.log('清洗结果：', this.students)
   }
 
