@@ -100,8 +100,8 @@ class Roll extends Component {
           <Button type="warning" onClick={this.shuffleClass} >洗牌</Button>
           <Slider
 
-            marks={{ 10: '10迈', 50: '50迈', 90: '90迈' }}
-            defaultValue={60}
+            marks={{ 10: '100迈', 50: '50迈', 90: '10迈' }}
+            defaultValue={this.speed}
             min={10}
             max={90}
             onChange={this.changeSpeed}
